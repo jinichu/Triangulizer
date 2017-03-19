@@ -128,6 +128,8 @@ def point_slope_to_y_intercept(m, p):
     Returns:
     A Line object corresponding to the original point and slope (m).
     """
+    if m is None or p is None:
+        return None
     return Line(m, p.y - m*p.x)
 
 
