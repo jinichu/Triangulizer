@@ -39,10 +39,13 @@
                 <template is="dom-if" if="{{success}}">
                     <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
                 </template>
-                <template is="dom-if" if="{{triSuccess}}">
-                    <video controls autoplay loop src="{{triVideo}}"/>
-                </template>
             </div>
+            <template is="dom-if" if="{{originalSuccess}}">
+                <video controls autoplay loop src="{{originalVideo}}" id="originalVideo"/>
+            </template>
+            <template is="dom-if" if="{{triSuccess}}">
+                <video controls autoplay loop src="{{triVideo}}" id="triVideo"/>
+            </template>
         </div>
         <div id="loading_box" on-tap="loadingTap">
             <div id="up_arrow" class="animated bounce"></div>
@@ -78,12 +81,19 @@
             },
             uploadSuccess: function(e) {
                 this.success = true;
+                this.originalSuccess = true;
+                this.originalVideo = this.fileName;
             },
             callTriangular: function() {
+                
+                if ($("#triVideo").is(":visible")) {
+                    $("#triVideo").fadeOut("fast");
+                }
+                            
                 console.log(this.$.getTriVideo.body);
                 this.$.getTriVideo.generateRequest();
                 $("#menu").fadeOut("slow", function () {
-                    $("#loading_box").fadeIn("slow").css("display", "inline-block");
+                    $("#loading_box").css("display", "inline-block").fadeIn("slow");
                 });
             },
             getTriangularized: function(data) {
@@ -96,8 +106,10 @@
                 $(this.$.loading_box).fadeOut("slow", () => {
                     $("main-page vaadin-upload")[0].files = [];
                     $("#menu_item").css("margin-right", "50px");
-                    $("#menu").css({"bottom" : "50px", "top" : "auto", "text-align" : "right"}).fadeIn("slow");                    
-                    this.success = false; 
+                    $("#menu").css({"bottom" : "50px", "top" : "auto", "text-align" : "right"}).fadeIn("slow");
+                    $("h1").css("color", "#FFF");
+                    $("#triVideo").fadeIn("slow");
+                    this.success = false;
                 });
             }
         });
