@@ -97,13 +97,7 @@
                 });
             },
             getTriangularized: function(data) {
-                this.triSuccess = true;
-                this.triVideo = data.detail.response;
-            },
-            ready: function() {
-            },
-            loadingTap: function() {
-                $(this.$.loading_box).fadeOut("slow", () => {
+                  $(this.$.loading_box).fadeOut("slow", () => {
                     $("main-page vaadin-upload")[0].files = [];
                     $("#menu_item").css("margin-right", "50px");
                     $("#menu").css({"bottom" : "50px", "top" : "auto", "text-align" : "right"}).fadeIn("slow");
@@ -111,6 +105,10 @@
                     $("#triVideo").fadeIn("slow");
                     this.success = false;
                 });
+                this.triSuccess = true;
+                this.triVideo = data.detail.response;
+            },
+            ready: function() {
             }
         });
 
