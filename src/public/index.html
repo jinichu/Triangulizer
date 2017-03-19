@@ -4,79 +4,83 @@
     <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="bower_components/paper-button/paper-button.html">
     <link rel="import" href="bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
     <link rel="import" href="bower_components/vaadin-upload/vaadin-upload.html">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:300,400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
     <main-page></main-page>
 </head>
 
 <dom-module id="main-page">
-    <style>
-        h1,h2,h3,h4,h5,h6 {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-        }
-        #menu {
-            width: 200px;
-            position: absolute;
-            left: 50%;
-            top: 40%;
-            margin-left: -100px;
-            margin-top: -75px;
-            text-align: center;
-        }
-        #menu-item {
-            margin-top: 25px;
-            width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 370px;
-        }
-    </style>
-
     <template>
-        <div id="menu">
+        <div id="header">
             <h1>Triangularizer</h1>
         </div>
-        <div id="menu-item">
+        <div id="menu_item">
             <vaadin-upload target="/"
                            method="POST"
                            headers="{'Accept': 'application/pdf'}"
                            timeout=15000
+                           accept="application/pdf"
                            max-files="1"
-                           on-upload-start="uploadStarted">
+                           on-upload-success="uploadSuccess"
+                           on-upload-response="uploadResponse">
                 <div class="drop-label">
                     <iron-icon icon="description"></iron-icon>
                     Upload a video to triangularize!
                 </div>
             </vaadin-upload>
+            <template is="dom-if" if="{{success}}">
+                <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
+            </template>
         </div>
+        <div id="loading_box">
+            <div id="up_arrow" class="animated bounce"></div>
+            <h3>We're working on it!</h3>
+        </div>
+        
+        <div id="footer">
+            <i class="fa fa-github fa-2x" aria-hidden="true"></i>
+            <p>Triangularizer</p>
+        </div>
+        <iron-ajax id="getTriVideo"
+           method="POST"
+           body="{{fileName}}"
+           url="/VideoToImages.py"
+           on-response="getVideo">
+        </iron-ajax>
     </template>
 
 
     <script>
         Polymer({
             is: 'main-page',
-            ready: function() {
-                var uploader = document.querySelector('vaadin-upload');
-                uploader.addEventListener('upload-response', function (e) {
-                    if (e.detail.xhr.status == 200) {
-                        e.detail.file.error = JSON.parse(xhr.responseText).error;
-                    }
-                });
-            },
-            uploadStarted: function(event) {
-                var dotIndex = event.detail.file.name.lastIndexOf('.');
-                var fileExt = event.detail.file.name.substring(dotIndex + 1);
-                var uploader = document.querySelector('vaadin-upload');
-
-                if (fileExt === "pdf") {
-                    uploader.interruptUpload();
+            uploadResponse: function(e, file) {
+                console.log(file.xhr.response);
+                this.fileName = file.xhr.response;
+                if (e.detail.xhr.status == 200) {
+                    console.log("Code 200");
                 }
-                alert("Please only upload .mp4 files!");
+                else {
+                    console.log(e.detail.xhr.status);
+                }
+            },
+            uploadSuccess: function(e) {
+                this.success = true;
+            },
+            callTriangular: function() {
+                console.log(this.$.getTriVideo.body);
+                this.$.getTriVideo.generateRequest();
+            },
+            ready: function() {
             }
         });
 
+        //                 var $error_message = $(".drop-label");
+        //        $error_message.text("Please only upload .mp4 files!").css("color", "#dd2c00");
 
     </script>
 
