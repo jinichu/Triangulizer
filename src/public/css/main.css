@@ -14,6 +14,11 @@ body {
     text-align: center;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
 #primary {
     margin: 45px;
     background-color: #3f51b5;
@@ -40,6 +45,7 @@ body {
     width: 100%;
     height: auto;
     display: block;
+    position: absolute;
     margin-top: 15%;
 }
 

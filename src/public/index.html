@@ -17,7 +17,9 @@
 <dom-module id="main-page">
     <template>
         <div id="header">
-            <h1>Triangularizer</h1>
+            <a href=""> 
+                <h1>Triangularizer</h1>
+            </a>
         </div>
         <div id="menu">
             <div id="menu_item">
@@ -39,14 +41,16 @@
                 </template>
             </div>
         </div>
-        <div id="loading_box">
+        <div id="loading_box" on-tap="loadingTap">
             <div id="up_arrow" class="animated bounce"></div>
             <h3>We're working on it!</h3>
         </div>
         
         <div id="footer">
-            <i class="fa fa-github fa-2x" aria-hidden="true"></i>
-            <p>Triangularizer</p>
+            <a href="https://github.com/SarcasmAppreciated/TriVideo"> 
+                <i class="fa fa-github fa-2x" aria-hidden="true"></i>
+                <p>Triangularizer</p>
+            </a>
         </div>
         <iron-ajax id="getTriVideo"
            method="POST"
@@ -80,10 +84,19 @@
                     $("#loading_box").fadeIn("slow").css("display", "inline-block");
                 });
             },
+            
             ready: function() {
-                $("#loading_box").fadeOut("slow");
+            },
+            loadingTap: function() {
+                $(this.$.loading_box).fadeOut("slow", () => {
+                    $("main-page vaadin-upload")[0].files = [];
+                    $("#menu_item").css("margin-right", "50px");
+                    $("#menu").css({"bottom" : "50px", "top" : "auto", "text-align" : "right"}).fadeIn("slow");                    
+                    this.success = false; 
+                });
             }
         });
+
     </script>
 
 </dom-module>
