@@ -196,7 +196,8 @@ def color_from_gradient(gradient, image_size, triangles):
 def triangularize(input_filename, npoints):
     """Calculate Delaunay triangulation and output an image"""
     aa_amount = 4
-    output_filename = "triangle_" + input_filename
+    path_info = input_filename.split(".")
+    output_filename = path_info[0]+"_triangle" + path_info[1]
     aa_amount = 4
     background_image = Image.open(input_filename)
     size = background_image.size
