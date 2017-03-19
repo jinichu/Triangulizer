@@ -109,14 +109,7 @@ a {
 }
 
 .animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  -webkit-animation-iteration-count: infinite;
+
 }
 
 @-webkit-keyframes bounce {
@@ -144,6 +137,48 @@ a {
 }
 
 .bounce {
-  -webkit-animation-name: bounce;
-  animation-name: bounce;
+    -webkit-animation-name: bounce;
+    animation-name: bounce;  
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
 }
+
+@-webkit-keyframes spin
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(90deg);}
+}
+
+@-moz-keyframes spin
+{
+    from{-moz-transform:rotate(0deg);}
+    to{-moz-transform:rotate(90deg);}
+}
+
+@-ms-keyframes spin
+{
+    from{-ms-transform:rotate(0deg);}
+    to{-ms-transform:rotate(90deg);}
+}
+
+.spin{
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 2s;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 2s;
+    -ms-animation-iteration-count: 1;
+    -ms-animation-timing-function: linear;
+}
+

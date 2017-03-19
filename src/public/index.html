@@ -48,7 +48,7 @@
             <video controls autoplay loop src="{{triVideo}}" id="triVideo"/>
         </template>
         <div id="loading_box" on-tap="loadingTap">
-            <div id="up_arrow" class="animated bounce"></div>
+            <div id="up_arrow" class="bounce"></div>
             <h3>We're working on it!</h3>
         </div>
         
@@ -84,11 +84,10 @@
                 this.originalSuccess = true;
                 this.originalVideo = this.fileName;
             },
-            callTriangular: function() {
-                
+            callTriangular: function() {                
                 if ($("#triVideo").is(":visible")) {
                     $("#triVideo").fadeOut("fast");
-                }                
+                }  
                 console.log(this.$.getTriVideo.body);
                 this.$.getTriVideo.generateRequest();
                 $("#menu").fadeOut("slow", function () {
@@ -96,19 +95,25 @@
                 });
             },
             getTriangularized: function(data) {
-                  $(this.$.loading_box).fadeOut("slow", () => {
+                setTimeout (function () {
+                    $("#up_arrow").removeClass("bounce").addClass("spin").css("border-bottom-color", "#dd2c00");
+                }, 2000);
+            
+                $(this.$.loading_box).fadeOut("slow", () => {
                     $("main-page vaadin-upload")[0].files = [];
                     $("#menu_item").css("margin-right", "50px");
                     $("#menu").css({"bottom" : "50px", "top" : "auto", "text-align" : "right"}).fadeIn("slow");
                     $("h1").css("color", "#FFF");
                     $("#triVideo").fadeIn("slow");
                     this.success = false;
+                    $("#up_arrow").addClass("bounce").removeClass("spin").css("border-bottom-color", "#000");
                 });
+                
                 this.triSuccess = true;
                 this.triVideo = data.detail.response;
-                this.originalSuccess = false;
-                this.originalSuccess = true;
-                this.originalVideo = this.fileName;
+                var video = document.getElementById("originalVideo");
+                video.currentTime = 0;
+                video.play();
             },
             ready: function() {
             }
