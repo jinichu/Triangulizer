@@ -44,6 +44,8 @@
                            headers="{'Accept': 'application/pdf'}"
                            timeout=15000
                            max-files="1"
+                           on-upload-success="uploadSuccess"
+                           on-upload-response="uploadResponse"
                            on-upload-start="uploadStarted">
                 <div class="drop-label">
                     <iron-icon icon="description"></iron-icon>
@@ -57,23 +59,26 @@
     <script>
         Polymer({
             is: 'main-page',
+            uploadResponse: function(e) {
+                if (e.detail.xhr.status == 200) {
+                    console.log("Code 200");
+                }
+            },
+            uploadSuccess: function(e) {
+                console.log("Success!!!!");
+            },
             ready: function() {
-                var uploader = document.querySelector('vaadin-upload');
-                uploader.addEventListener('upload-response', function (e) {
-                    if (e.detail.xhr.status == 200) {
-                        e.detail.file.error = JSON.parse(xhr.responseText).error;
-                    }
-                });
             },
             uploadStarted: function(event) {
                 var dotIndex = event.detail.file.name.lastIndexOf('.');
                 var fileExt = event.detail.file.name.substring(dotIndex + 1);
                 var uploader = document.querySelector('vaadin-upload');
 
-                if (fileExt === "pdf") {
+                if (fileExt !== "pdf") {
                     uploader.interruptUpload();
+                    alert("Please only upload .mp4 files!");
                 }
-                alert("Please only upload .mp4 files!");
+
             }
         });
 
