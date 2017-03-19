@@ -14,15 +14,15 @@ imageio.plugins.ffmpeg.download()
 def triangularize_frame(frame):
     fr, idx = frame
     if idx % 4 == 0:
-        frameFileName = 'Frames/Frame%d.jpg' % idx
-        absolute_path = '/Users/tyler/Desktop/NWhacks/TriVideo/' + frameFileName
+        frameFileName = '/Frames/Frame%d.jpg' % idx
+        #absolute_path = '/Users/tyler/Desktop/NWhacks/TriVideo/' + frameFileName
         print("Saving frame %s" % absolute_path)
         imsave(frameFileName,fr)
 
         # convert img to triangle version
-        return (timeout(triangularize, args=(absolute_path,1500), timeout_duration=20), idx)
+        return (timeout(triangularize, args=(absolute_path,500), timeout_duration=20), idx)
     else:
-        return (None,idx) 
+        return (None,idx)
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     import signal
@@ -34,7 +34,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
         raise TimeoutError()
 
     # set the timeout handler
-    signal.signal(signal.SIGALRM, handler) 
+    signal.signal(signal.SIGALRM, handler)
     signal.alarm(timeout_duration)
     try:
         result = func(*args, **kwargs)
@@ -52,6 +52,7 @@ def getVideo(InputFileName):
     vid = imageio.get_reader(InputFileName,  'ffmpeg')
     fps = vid.get_meta_data()['fps']
     FullFilePath = InputFileName[0:len(InputFileName) - 4] + '_triangular' + InputFileName[len(InputFileName) - 4: len(InputFileName)]
+    print(FullFilePath)
     #writer = imageio.get_writer('/Users/tyler/Desktop/NWhacks/TriVideo/tmp/processed_Fireworks.mp4', fps=fps)
     #slowerfps = fps/4
     writer = imageio.get_writer(FullFilePath, fps=fps)
@@ -64,4 +65,3 @@ def getVideo(InputFileName):
             writer.append_data(processedImage)
     return FullFilePath
 
-getVideo('/Users/tyler/Desktop/NWhacks/TriVideo/tmp/Waves.mp4')
