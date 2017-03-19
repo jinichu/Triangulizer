@@ -41,11 +41,16 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
 # Our map function
 def getVideo(InputFileName):
     start_time = time.time()
+    ReturnFilePath = InputFileName[0:len(InputFileName) - 4] + '_triangular' + InputFileName[len(InputFileName) - 4: len(InputFileName)]
+    FullFilePath = "../tmp/" + ReturnFilePath
+    if os.path.isfile(FullFilePath):
+        time.sleep(1) #TODO remove
+        print("Hitting cache for %s" % FullFilePath)
+        return ReturnFilePath
     vid = imageio.get_reader("../tmp/" + InputFileName,  'ffmpeg')
     fps = vid.get_meta_data()['fps']
-    FullFilePath =  InputFileName[0:len(InputFileName) - 4] + '_triangular' + InputFileName[len(InputFileName) - 4: len(InputFileName)]
-    print("Processing file from %s" % FullFilePath)
-    writer = imageio.get_writer("../tmp/" + FullFilePath, fps=fps)
+    print("Processing file from %s" % ReturnFilePath)
+    writer = imageio.get_writer(FullFilePath , fps=fps)
     frames = processor.map(triangularize_frame, zip(vid, range(len(vid))))
     print("--- %s seconds before writing ---" % (time.time() - start_time))
     for fr, idx in frames:
@@ -53,6 +58,8 @@ def getVideo(InputFileName):
             writer.append_data(numpy.asarray(fr))
     print("--- %s seconds after writing ---" % (time.time() - start_time))
 
-    return FullFilePath
+    return ReturnFilePath
+
+
 
 processor = Pool(8)
