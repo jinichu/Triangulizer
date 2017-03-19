@@ -19,23 +19,25 @@
         <div id="header">
             <h1>Triangularizer</h1>
         </div>
-        <div id="menu_item">
-            <vaadin-upload target="/"
-                           method="POST"
-                           headers="{'Accept': 'application/pdf'}"
-                           timeout=15000
-                           accept="application/pdf"
-                           max-files="1"
-                           on-upload-success="uploadSuccess"
-                           on-upload-response="uploadResponse">
-                <div class="drop-label">
-                    <iron-icon icon="description"></iron-icon>
-                    Upload a video to triangularize!
-                </div>
-            </vaadin-upload>
-            <template is="dom-if" if="{{success}}">
-                <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
-            </template>
+        <div id="menu">
+            <div id="menu_item">
+                <vaadin-upload target="/"
+                               method="POST"
+                               headers="{'Accept': 'application/pdf'}"
+                               timeout=15000
+                               accept="application/pdf"
+                               max-files="1"
+                               on-upload-success="uploadSuccess"
+                               on-upload-response="uploadResponse">
+                    <div class="drop-label">
+                        <iron-icon icon="description"></iron-icon>
+                        Upload a video to triangularize!
+                    </div>
+                </vaadin-upload>
+                <template is="dom-if" if="{{success}}">
+                    <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
+                </template>
+            </div>
         </div>
         <div id="loading_box">
             <div id="up_arrow" class="animated bounce"></div>
@@ -74,14 +76,14 @@
             callTriangular: function() {
                 console.log(this.$.getTriVideo.body);
                 this.$.getTriVideo.generateRequest();
+                $("#menu").fadeOut("slow", function () {
+                    $("#loading_box").fadeIn("slow").css("display", "inline-block");
+                });
             },
             ready: function() {
+                $("#loading_box").fadeOut("slow");
             }
         });
-
-        //                 var $error_message = $(".drop-label");
-        //        $error_message.text("Please only upload .mp4 files!").css("color", "#dd2c00");
-
     </script>
 
 </dom-module>
