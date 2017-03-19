@@ -4,6 +4,7 @@
     <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="bower_components/paper-button/paper-button.html">
     <link rel="import" href="bower_components/iron-icon/iron-icon.html">
+    <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
     <link rel="import" href="bower_components/vaadin-upload/vaadin-upload.html">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:300,400" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -12,6 +13,9 @@
 
 <dom-module id="main-page">
     <style>
+        :host {
+            --primary-color: #00b0ff;
+        }
         h1,h2,h3,h4,h5,h6 {
             margin: 0;
             font-family: 'Roboto', sans-serif;
@@ -26,11 +30,16 @@
             text-align: center;
         }
         #menu-item {
-            margin-top: 25px;
             width: 400px;
             margin-left: auto;
             margin-right: auto;
             margin-top: 370px;
+            text-align: center;
+        }
+        #primary {
+            margin: 45px;
+            background-color: var(--primary-color);
+            color: white;
         }
     </style>
 
@@ -43,42 +52,49 @@
                            method="POST"
                            headers="{'Accept': 'application/pdf'}"
                            timeout=15000
+                           accept="application/pdf"
                            max-files="1"
                            on-upload-success="uploadSuccess"
-                           on-upload-response="uploadResponse"
-                           on-upload-start="uploadStarted">
+                           on-upload-response="uploadResponse">
                 <div class="drop-label">
                     <iron-icon icon="description"></iron-icon>
                     Upload a video to triangularize!
                 </div>
             </vaadin-upload>
+            <template is="dom-if" if="{{success}}">
+                <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
+            </template>
         </div>
+        <iron-ajax id="getTriVideo"
+                   method="POST"
+                   body="{{fileName}}"
+                   url="/VideoToImages.py"
+                   on-response="getVideo">
+        </iron-ajax>
     </template>
 
 
     <script>
         Polymer({
             is: 'main-page',
-            uploadResponse: function(e) {
+            uploadResponse: function(e, file) {
+                console.log(file.xhr.response);
+                this.fileName = file.xhr.response;
                 if (e.detail.xhr.status == 200) {
                     console.log("Code 200");
                 }
+                else {
+                    console.log(e.detail.xhr.status);
+                }
             },
             uploadSuccess: function(e) {
-                console.log("Success!!!!");
+                this.success = true;
+            },
+            callTriangular: function() {
+                console.log(this.$.getTriVideo.body);
+                this.$.getTriVideo.generateRequest();
             },
             ready: function() {
-            },
-            uploadStarted: function(event) {
-                var dotIndex = event.detail.file.name.lastIndexOf('.');
-                var fileExt = event.detail.file.name.substring(dotIndex + 1);
-                var uploader = document.querySelector('vaadin-upload');
-
-                if (fileExt !== "pdf") {
-                    uploader.interruptUpload();
-                    alert("Please only upload .mp4 files!");
-                }
-
             }
         });
 
