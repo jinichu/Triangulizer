@@ -4,7 +4,7 @@ import numpy
 import os
 from multiprocessing import Pool
 from triangles.delaunay import triangularize
-from scipy.misc import imsave
+from scipy.misc import imsave, toimage
 imageio.plugins.ffmpeg.download()
 
 def triangularize_frame(frame):
@@ -12,10 +12,10 @@ def triangularize_frame(frame):
     frameFileName = '/Frames/Frame%d.jpg' % idx
     absolute_path = os.path.dirname(os.path.abspath(__file__)) + frameFileName
     print("Saving frame %s" % absolute_path)
-    imsave(absolute_path,fr)
+    # imsave(absolute_path,fr)
 
     # convert img to triangle version
-    return (timeout(triangularize, args=(absolute_path,100), timeout_duration=30), idx)
+    return (timeout(triangularize, args=(absolute_path, fr,100), timeout_duration=30), idx)
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     import signal
@@ -56,5 +56,6 @@ def getVideo(InputFileName):
         if fr is not None:
             #processedImage = imageio.imread(fr)
             writer.append_data(numpy.asarray(fr))
+
     return FullFilePath
 
