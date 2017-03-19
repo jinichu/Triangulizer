@@ -25,9 +25,9 @@
             <div id="menu_item">
                 <vaadin-upload target="/"
                                method="POST"
-                               headers="{'Accept': 'application/pdf'}"
+                               headers="{'Accept': 'video/mp4'}"
                                timeout=15000
-                               accept="application/pdf"
+                               accept="video/mp4"
                                max-files="1"
                                on-upload-success="uploadSuccess"
                                on-upload-response="uploadResponse">
@@ -38,6 +38,9 @@
                 </vaadin-upload>
                 <template is="dom-if" if="{{success}}">
                     <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
+                </template>
+                <template is="dom-if" if="{{triSuccess}}">
+                    <video controls autoplay loop src="{{triVideo}}"/>
                 </template>
             </div>
         </div>
@@ -53,25 +56,24 @@
             </a>
         </div>
         <iron-ajax id="getTriVideo"
-           method="POST"
-           body="{{fileName}}"
-           url="/VideoToImages.py"
-           on-response="getVideo">
+                   method="POST"
+                   body="{{fileName}}"
+                   url="/VideoToImages"
+                   handle-as="text"
+                   on-response="getTriangularized">
         </iron-ajax>
     </template>
-
 
     <script>
         Polymer({
             is: 'main-page',
             uploadResponse: function(e, file) {
-                console.log(file.xhr.response);
                 this.fileName = file.xhr.response;
                 if (e.detail.xhr.status == 200) {
                     console.log("Code 200");
                 }
                 else {
-                    console.log(e.detail.xhr.status);
+                    console.log("Code: " + e.detail.xhr.status);
                 }
             },
             uploadSuccess: function(e) {
@@ -84,7 +86,10 @@
                     $("#loading_box").fadeIn("slow").css("display", "inline-block");
                 });
             },
-            
+            getTriangularized: function(data) {
+                this.triSuccess = true;
+                this.triVideo = data.detail.response;
+            },
             ready: function() {
             },
             loadingTap: function() {
