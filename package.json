@@ -1,0 +1,24 @@
+{
+  "name": "trivideo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SarcasmAppreciated/TriVideo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SarcasmAppreciated/TriVideo/issues"
+  },
+  "homepage": "https://github.com/SarcasmAppreciated/TriVideo#readme",
+  "devDependencies": {
+    "@types/debug": "0.0.29",
+    "@types/express": "^4.0.33",
+    "@types/node": "^6.0.46"
+  }
+}

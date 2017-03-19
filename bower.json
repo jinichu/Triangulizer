@@ -1,0 +1,23 @@
+{
+  "name": "TriVideo",
+  "homepage": "https://github.com/SarcasmAppreciated/TriVideo",
+  "authors": [
+    "Jinny Byun <jinnybyun@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.8.1",
+    "iron-elements": "^1.0.10",
+    "paper-elements": "^1.0.7",
+    "vaadin-upload": "^1.1.3"
+  }
+}
