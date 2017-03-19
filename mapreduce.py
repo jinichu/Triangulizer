@@ -49,7 +49,28 @@ class MapReduce(object):
           The portion of the input data to hand to each worker.  This
           can be used to tune performance during the mapping phase.
         """
+        #something = zip(inputs,range(len(inputs)))
         map_responses = self.pool.map(self.map_func, inputs, chunksize=chunksize)
-        partitioned_data = self.partition(itertools.chain(*map_responses))
-        reduced_values = self.pool.map(self.reduce_func, partitioned_data)
+        #partitioned_data = self.partition(itertools.chain(*map_responses))
+        #reduced_values = self.pool.map(self.reduce_func, partitioned_data)
+        reduced_values = self.pool.map(self.reduce_func, map_responses)
+
         return reduced_values
+
+class Frame(object):
+
+    def __init__(self, new_frame, new_idx):
+        self.frame = new_frame
+        self.idx = new_idx
+    
+    def __getitem__(self,key):
+        return self[key]
+
+    def __setitem__(self,key,value):
+        self[key] = value
+    
+    def __delitem__(self,key):
+        try: 
+          del self[key]
+        except KeyError:
+          pass
