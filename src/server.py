@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, send_from_directory, redirect, url_for
-from VideoToImages import func
+#from VideoToImages import func
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 UPLOAD_FOLDER = ''
@@ -37,7 +37,8 @@ def uploaded_file(filename):
 @app.route('/VideoToImages', methods=['POST'])
 def send_to_video_to_images():
     if request.method == 'POST':
-        print request.get_data()
+        # TODO (Jinny): Return path to rendered video
+        return request.get_data()
     return ''
 
 if __name__ == "__main__":
