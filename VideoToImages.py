@@ -8,16 +8,13 @@ imageio.plugins.ffmpeg.download()
 
 def triangularize_frame(frame):
     fr, idx = frame
-    if idx % 4 == 0:
-        frameFileName = '/Frames/Frame%d.jpg' % idx
-        absolute_path = os.path.dirname(os.path.abspath(__file__)) + frameFileName
-        print("Saving frame %s" % absolute_path)
-        imsave(absolute_path,fr)
+    frameFileName = '/Frames/Frame%d.jpg' % idx
+    absolute_path = os.path.dirname(os.path.abspath(__file__)) + frameFileName
+    print("Saving frame %s" % absolute_path)
+    imsave(absolute_path,fr)
 
-        # convert img to triangle version
-        return (timeout(triangularize, args=(absolute_path,100), timeout_duration=15), idx)
-    else:
-        return (None,idx)
+    # convert img to triangle version
+    return (timeout(triangularize, args=(absolute_path,3000), timeout_duration=30), idx)
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     import signal
