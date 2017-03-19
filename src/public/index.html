@@ -40,13 +40,13 @@
                     <paper-button raised id="primary" on-tap="callTriangular">Let's triangularize!</paper-button>
                 </template>
             </div>
-            <template is="dom-if" if="{{originalSuccess}}">
-                <video controls autoplay loop src="{{originalVideo}}" id="originalVideo"/>
-            </template>
-            <template is="dom-if" if="{{triSuccess}}">
-                <video controls autoplay loop src="{{triVideo}}" id="triVideo"/>
-            </template>
         </div>
+        <template is="dom-if" if="{{originalSuccess}}">
+            <video controls autoplay loop src="{{originalVideo}}" id="originalVideo"/>
+        </template>
+        <template is="dom-if" if="{{triSuccess}}">
+            <video controls autoplay loop src="{{triVideo}}" id="triVideo"/>
+        </template>
         <div id="loading_box" on-tap="loadingTap">
             <div id="up_arrow" class="animated bounce"></div>
             <h3>We're working on it!</h3>
@@ -88,8 +88,7 @@
                 
                 if ($("#triVideo").is(":visible")) {
                     $("#triVideo").fadeOut("fast");
-                }
-                            
+                }                
                 console.log(this.$.getTriVideo.body);
                 this.$.getTriVideo.generateRequest();
                 $("#menu").fadeOut("slow", function () {
@@ -107,6 +106,9 @@
                 });
                 this.triSuccess = true;
                 this.triVideo = data.detail.response;
+                this.originalSuccess = false;
+                this.originalSuccess = true;
+                this.originalVideo = this.fileName;
             },
             ready: function() {
             }
