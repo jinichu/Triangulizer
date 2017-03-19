@@ -14,6 +14,11 @@ body {
     text-align: center;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
 #primary {
     margin: 45px;
     background-color: #3f51b5;
@@ -40,6 +45,7 @@ body {
     width: 100%;
     height: auto;
     display: block;
+    position: absolute;
     margin-top: 15%;
 }
 
@@ -47,6 +53,7 @@ body {
     width: 400px;
     display: inline-block;
     margin-top: 25px;
+    background-color: #FFF;
 }
 
 #loading_box {
@@ -64,6 +71,29 @@ body {
     border-right: 25px solid transparent;  
     border-bottom: 43px solid black;
     display: inline-block;
+}
+
+#originalVideo {
+    width: 324px;
+    height: 216px;
+    display: block;
+    position: fixed;
+    bottom: 50px;
+    left: 70px;
+    border: 5px solid #3f51b5;
+    background-color: #000;
+}
+
+#triVideo {
+    min-width: 100%; 
+    min-height: 100%;
+    width: auto; 
+    height: auto; 
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
 }
 
 #footer {
