@@ -1,11 +1,6 @@
-import os
-import pylab
-import skvideo.io
 import imageio
-import numpy as np
-import sys
-import scipy as sp
 import operator
+import os
 from multiprocessing import Pool
 from triangles.delaunay import triangularize
 from scipy.misc import imsave
@@ -15,12 +10,12 @@ def triangularize_frame(frame):
     fr, idx = frame
     if idx % 4 == 0:
         frameFileName = '/Frames/Frame%d.jpg' % idx
-        #absolute_path = '/Users/tyler/Desktop/NWhacks/TriVideo/' + frameFileName
+        absolute_path = os.path.dirname(os.path.abspath(__file__)) + frameFileName
         print("Saving frame %s" % absolute_path)
-        imsave(frameFileName,fr)
+        imsave(absolute_path,fr)
 
         # convert img to triangle version
-        return (timeout(triangularize, args=(absolute_path,500), timeout_duration=20), idx)
+        return (timeout(triangularize, args=(absolute_path,100), timeout_duration=15), idx)
     else:
         return (None,idx)
 
@@ -39,6 +34,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     try:
         result = func(*args, **kwargs)
     except TimeoutError as exc:
+        print("Processing frame %s Timedout" % kwargs)
         result = default
     finally:
         signal.alarm(0)
@@ -48,7 +44,6 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
 
 # Our map function
 def getVideo(InputFileName):
-    #InputFileName = '/Users/tyler/Desktop/NWhacks/TriVideo/tmp/Fireworks.mp4'
     vid = imageio.get_reader(InputFileName,  'ffmpeg')
     fps = vid.get_meta_data()['fps']
     FullFilePath = InputFileName[0:len(InputFileName) - 4] + '_triangular' + InputFileName[len(InputFileName) - 4: len(InputFileName)]
