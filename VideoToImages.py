@@ -9,8 +9,6 @@ import operator
 from multiprocessing import Pool
 from triangles.delaunay import triangularize
 from scipy.misc import imsave
-from Naked.toolshed.shell import execute_js, muterun_js
-from mapreduce import MapReduce, Frame
 imageio.plugins.ffmpeg.download()
 
 def triangularize_frame(frame):
@@ -24,7 +22,7 @@ def triangularize_frame(frame):
         # convert img to triangle version
         return (timeout(triangularize, args=(absolute_path,100), timeout_duration=2), idx)
     else:
-        return (None,idx) 
+        return (None,idx)
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     import signal
@@ -36,7 +34,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
         raise TimeoutError()
 
     # set the timeout handler
-    signal.signal(signal.SIGALRM, handler) 
+    signal.signal(signal.SIGALRM, handler)
     signal.alarm(timeout_duration)
     try:
         result = func(*args, **kwargs)
@@ -69,10 +67,10 @@ def getVideo(InputFileName):
     # for im in vid:
     #     j = j + 1
     #     if j % 5 != 0:
-    #             continue 
+    #             continue
     #     if j < 5000 and j > 2000:
     #         filename = 'Frames/Frame%d.jpg' % j
-    #         absolute_path = '/Users/tyler/Desktop/NWhacks/TriVideo/' + filename 
+    #         absolute_path = '/Users/tyler/Desktop/NWhacks/TriVideo/' + filename
     #         #filtered_im  = gaussian(im, sigma=0.4)
     #         filtered_im = im
     #         imsave(filename,filtered_im)
@@ -90,4 +88,4 @@ def getVideo(InputFileName):
     # writer.close()
     return FullFilePath
 
-getVideo('/Users/tyler/Desktop/NWhacks/TriVideo/tmp/Fireworks.mp4')
+#getVideo('/Users/tyler/Desktop/NWhacks/TriVideo/tmp/Fireworks.mp4')
