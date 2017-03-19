@@ -230,9 +230,9 @@ def triangularize(input_filename, npoints):
     # Draw the triangulation
     draw_polys(draw, colors, trans_triangulation)
 
-    return image
+    # return image
     #
     # # Write the image to a file
     # image.save(output_filename)
-    # print('Image saved to %s' % output_filename)
-    # return output_filename
+    print('Image processed %s' % input_filename)
+    return image

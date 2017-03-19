@@ -1,6 +1,6 @@
 import imageio
 import operator
-import os
+import numpy
 from multiprocessing import Pool
 from triangles.delaunay import triangularize
 from scipy.misc import imsave
@@ -53,7 +53,7 @@ def getVideo(InputFileName):
     sorted_frames = sorted(frames, key=operator.itemgetter(1))
     for fr, idx in sorted_frames:
         if fr is not None:
-            processedImage = imageio.imread(fr)
-            writer.append_data(processedImage)
+            #processedImage = imageio.imread(fr)
+            writer.append_data(numpy.asarray(fr))
     return FullFilePath
 
