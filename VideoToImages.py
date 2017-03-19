@@ -51,8 +51,8 @@ def getVideo(InputFileName):
     writer = imageio.get_writer("../tmp/" + FullFilePath, fps=fps)
     p = Pool(8)
     frames = p.map(triangularize_frame, zip(vid, range(len(vid))))
-    sorted_frames = sorted(frames, key=operator.itemgetter(1))
-    for fr, idx in sorted_frames:
+    # sorted_frames = sorted(frames, key=operator.itemgetter(1))
+    for fr, idx in frames:
         if fr is not None:
             #processedImage = imageio.imread(fr)
             writer.append_data(numpy.asarray(fr))
