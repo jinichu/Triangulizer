@@ -1,6 +1,7 @@
 import imageio
 import operator
 import numpy
+import os
 from multiprocessing import Pool
 from triangles.delaunay import triangularize
 from scipy.misc import imsave
@@ -14,7 +15,7 @@ def triangularize_frame(frame):
     imsave(absolute_path,fr)
 
     # convert img to triangle version
-    return (timeout(triangularize, args=(absolute_path,3000), timeout_duration=30), idx)
+    return (timeout(triangularize, args=(absolute_path,100), timeout_duration=30), idx)
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     import signal
@@ -41,13 +42,13 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
 
 # Our map function
 def getVideo(InputFileName):
-    vid = imageio.get_reader(InputFileName,  'ffmpeg')
+    vid = imageio.get_reader("../tmp/" + InputFileName,  'ffmpeg')
     fps = vid.get_meta_data()['fps']
-    FullFilePath = InputFileName[0:len(InputFileName) - 4] + '_triangular' + InputFileName[len(InputFileName) - 4: len(InputFileName)]
-    print(FullFilePath)
+    FullFilePath =  InputFileName[0:len(InputFileName) - 4] + '_triangular' + InputFileName[len(InputFileName) - 4: len(InputFileName)]
+    print("Processing file from %s" % FullFilePath)
     #writer = imageio.get_writer('/Users/tyler/Desktop/NWhacks/TriVideo/tmp/processed_Fireworks.mp4', fps=fps)
     #slowerfps = fps/4
-    writer = imageio.get_writer(FullFilePath, fps=fps)
+    writer = imageio.get_writer("../tmp/" + FullFilePath, fps=fps)
     p = Pool(8)
     frames = p.map(triangularize_frame, zip(vid, range(len(vid))))
     sorted_frames = sorted(frames, key=operator.itemgetter(1))

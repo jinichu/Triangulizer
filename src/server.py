@@ -7,7 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from VideoToImages import getVideo
 
 app = Flask(__name__, static_url_path='', static_folder='public')
-UPLOAD_FOLDER = ''
+UPLOAD_FOLDER = '../tmp'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
