@@ -31,8 +31,8 @@ a {
 
 #header {
     width: 100%;
-    display: inline-block;
     text-align: left;
+    position: absolute;
 }
 
 #header h1 {
@@ -85,13 +85,9 @@ a {
 }
 
 #triVideo {
-    min-height: 100%;
-    width: auto; 
-    height: auto; 
+    width: 100% !important; 
+    height: auto !important; 
     display: none;
-    position: fixed;
-    top: 0px;
-    left: 0px;
     z-index: -1;
 }
 
