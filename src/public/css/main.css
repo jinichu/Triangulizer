@@ -86,7 +86,10 @@ a {
 
 #triVideo {
     width: 100% !important; 
-    height: auto !important; 
+    height: auto !important;
+    position: absolute;
+    top: 0;
+    left: 0;
     display: none;
     z-index: -1;
 }
