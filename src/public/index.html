@@ -99,8 +99,8 @@
                     $("main-page vaadin-upload")[0].files = [];                        
                     $("#menu_item").css("margin-right", "50px");
                     $("#menu").css({"bottom" : "50px", "top" : "auto", "text-align" : "right"}).fadeIn("slow");
-                    $("h1").css("color", "#FFF");
-                    $("#triVideo").fadeIn("slow").css("display", "inline-block");
+		    var widthOfBody = ($("#triVideo").width() / 2) * -1;
+                    $("#triVideo").css("margin-left", widthOfBody).fadeIn("slow");
                     this.success = false;
                 });
                 
