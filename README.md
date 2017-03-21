@@ -13,4 +13,4 @@ Example frame
 
 ![alt tag](https://github.com/jinichu/Triangulizer/blob/master/examples/RickRoll.png)
 
-![alt tag](https://github.com/jinichuAppreciated/Triangulizer/blob/master/examples/RickRollTriangularized.png)
+![alt tag](https://github.com/jinichu/Triangulizer/blob/master/examples/RickRollTriangularized.png)
